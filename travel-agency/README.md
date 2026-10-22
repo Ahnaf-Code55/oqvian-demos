@@ -1,0 +1,1 @@
+Saffron Route Travel is a static fictional travel agency page with sample destinations, trip filters, booking steps, FAQs, and a browser-only inquiry form. Run it with `python3 -m http.server 4106` from this folder. The port is 4106. Not included: a booking service, backend, or message delivery.

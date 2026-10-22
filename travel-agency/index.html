@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3e7d2">
+  <meta name="description" content="Small, thoughtful journeys from Saffron Route Travel. Demo with sample data.">
+  <title>Saffron Route Travel | Find your own way</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --sand: #f3e7d2;
+      --paper: #fffaf0;
+      --ink: #183b3a;
+      --teal: #174b49;
+      --teal-soft: #dce9df;
+      --coral: #cf624b;
+      --clay: #b87952;
+      --line: #d9cdb8;
+      --muted: #526967;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--sand); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    :focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow, .micro, .price-label, .route-note { font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; font-size: .68rem; }
+    .eyebrow { color: var(--coral); font-weight: 700; }
+    .topline { background: var(--teal); color: var(--paper); text-align: center; padding: 7px 12px; font: 600 .67rem var(--mono); letter-spacing: .13em; }
+    header { border-bottom: 1px solid var(--line); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { text-decoration: none; display: inline-flex; align-items: center; gap: 11px; }
+    .brand-mark { width: 35px; height: 35px; border: 1px solid var(--coral); border-radius: 50% 50% 48% 12%; transform: rotate(-45deg); display: grid; place-items: center; color: var(--coral); font: 1.2rem var(--serif); }
+    .brand-mark span { transform: rotate(45deg); }
+    .brand-name { font: 600 1rem var(--serif); letter-spacing: .015em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(15px, 3vw, 36px); font-size: .83rem; }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-cta { border: 1px solid var(--teal); padding: 10px 16px; }
+    .hero { position: relative; overflow: visible; clip-path: inset(0 0 -200px 0); background: var(--teal); color: var(--paper); min-height: 570px; display: grid; align-items: center; }
+    .hero::before { content: ""; position: absolute; width: 510px; height: 510px; border: 1px solid rgba(243,231,210,.17); border-radius: 50%; right: -85px; top: -110px; box-shadow: 0 0 0 42px rgba(243,231,210,.035), 0 0 0 90px rgba(243,231,210,.025); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 40px; padding-block: 74px 100px; }
+    .hero-copy { max-width: 610px; }
+    .hero .eyebrow { color: #f09b7c; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 20px; max-width: 650px; font: 500 clamp(3.2rem, 6.6vw, 6rem)/.97 var(--serif); letter-spacing: -.055em; }
+    h1 em { color: #f09b7c; font-weight: 400; }
+    .hero-copy > p { max-width: 425px; color: #dce9df; font-size: 1rem; }
+    .hero-illustration { width: 100%; max-width: 400px; justify-self: end; }
+    .hero-illustration svg { display: block; width: 100%; height: auto; }
+    .quick-inquiry { position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%); z-index: 2; width: min(1040px, calc(100% - 48px)); display: grid; grid-template-columns: 1.3fr 1fr .8fr auto; gap: 0; padding: 13px; background: var(--paper); color: var(--ink); box-shadow: 0 14px 36px #153b3926; }
+    .quick-inquiry label { min-width: 0; padding: 2px 17px; border-right: 1px solid var(--line); display: grid; gap: 2px; }
+    .quick-inquiry label span { color: var(--muted); font: .63rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .quick-inquiry select { appearance: none; border: 0; background: transparent; color: var(--ink); min-width: 0; width: 100%; padding: 5px 18px 5px 0; font-size: .88rem; }
+    .quick-inquiry button, .button { border: 0; background: var(--coral); color: white; cursor: pointer; padding: 0 22px; font-weight: 650; transition: background .18s ease, transform .18s ease; }
+    .quick-inquiry button:hover, .button:hover { background: #a84635; transform: translateY(-1px); }
+    main { padding-top: 110px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 26px; }
+    h2 { margin-bottom: 0; font: 500 clamp(2.2rem, 4vw, 3.7rem)/1.05 var(--serif); letter-spacing: -.04em; }
+    .section-head p { max-width: 330px; margin: 0 0 4px; color: var(--muted); font-size: .9rem; }
+    .filter-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 25px 0 20px; }
+    .filter-row .micro { margin-right: 8px; color: var(--muted); }
+    .filter-button { border: 1px solid #a8b5a9; color: var(--teal); background: transparent; border-radius: 99px; padding: 8px 15px; font-size: .8rem; cursor: pointer; }
+    .filter-button:hover, .filter-button[aria-pressed="true"] { background: var(--teal); color: var(--paper); border-color: var(--teal); }
+    .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .destination { background: var(--paper); border: 1px solid #e3d8c6; min-width: 0; transition: transform .2s ease, box-shadow .2s ease; }
+    .destination:hover { transform: translateY(-4px); box-shadow: 0 13px 24px #23413b12; }
+    .destination[hidden] { display: none; }
+    .art { position: relative; height: 195px; overflow: hidden; background: var(--art-bg, #dce9df); }
+    .art svg { width: 100%; height: 100%; display: block; }
+    .art-tag { position: absolute; top: 12px; left: 12px; background: var(--paper); color: var(--teal); padding: 5px 9px; font: .62rem var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+    .dest-info { padding: 17px 19px 18px; }
+    .dest-info h3 { font: 500 1.52rem/1.15 var(--serif); margin: 0 0 4px; }
+    .dest-info p { margin: 0; color: var(--muted); font-size: .8rem; }
+    .dest-foot { display: flex; justify-content: space-between; align-items: end; border-top: 1px solid var(--line); margin-top: 15px; padding-top: 12px; gap: 10px; }
+    .price-label { color: var(--muted); font-size: .57rem; display: block; }
+    .price { font: 600 1rem var(--serif); }
+    .duration { font: .65rem var(--mono); color: var(--muted); white-space: nowrap; }
+    .booking { margin-top: 112px; background: var(--teal); color: var(--paper); padding: 74px 0 80px; position: relative; overflow: hidden; }
+    .booking::after { content: ""; position: absolute; width: 400px; height: 400px; border: 1px solid #f3e7d228; border-radius: 50%; right: -145px; bottom: -240px; box-shadow: 0 0 0 40px #f3e7d20b, 0 0 0 80px #f3e7d208; }
+    .booking .eyebrow { color: #f09b7c; }
+    .booking h2 { max-width: 550px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 43px; position: relative; }
+    .step { border-top: 1px solid #ffffff55; padding-top: 16px; }
+    .step-number { color: #f09b7c; font: 1rem var(--mono); }
+    .step h3 { font: 500 1.55rem var(--serif); margin: 10px 0 7px; }
+    .step p { color: #dce9df; font-size: .87rem; max-width: 290px; margin-bottom: 0; }
+    .lower { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(45px, 9vw, 120px); padding-block: 94px 104px; }
+    .faq h2, .inquiry h2 { font-size: clamp(2.3rem, 4vw, 3.4rem); margin-bottom: 12px; }
+    .subhead { color: var(--muted); font-size: .9rem; margin-bottom: 25px; }
+    details { border-top: 1px solid var(--line); padding: 15px 0; }
+    details:last-child { border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 15px; font: 500 1.12rem var(--serif); }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font: 1rem var(--mono); color: var(--coral); }
+    details[open] summary::after { content: "−"; }
+    details p { padding: 10px 30px 0 0; color: var(--muted); font-size: .85rem; margin: 0; }
+    .inquiry { background: #e7ddc9; padding: clamp(23px, 4vw, 38px); border-top: 3px solid var(--coral); }
+    .inquiry .subhead { margin-bottom: 22px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: grid; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font: .65rem var(--mono); text-transform: uppercase; letter-spacing: .09em; color: var(--teal); }
+    .field input, .field select, .field textarea { width: 100%; background: var(--paper); color: var(--ink); border: 1px solid #c9bda7; border-radius: 0; padding: 11px 12px; }
+    .field textarea { min-height: 94px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: #71807a; }
+    .form-actions { display: flex; align-items: center; gap: 15px; margin-top: 16px; }
+    .form-actions .button { min-height: 46px; padding-inline: 19px; }
+    .form-note { color: var(--muted); font-size: .72rem; }
+    .thank-you { display: none; margin: 15px 0 0; color: var(--teal); font-weight: 650; }
+    .thank-you.visible { display: block; }
+    footer { background: #e6d8c1; border-top: 1px solid var(--line); padding: 25px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--muted); font-size: .75rem; }
+    .footer-inner p { margin: 0; }
+    .footer-name { color: var(--teal); font: 500 1.1rem var(--serif); }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 34px, 560px); }
+      .nav { min-height: 66px; }
+      .brand-name { font-size: .91rem; }
+      .nav-links { gap: 13px; font-size: .74rem; }
+      .nav-links a:nth-child(2) { display: none; }
+      .nav-cta { padding: 8px 10px; }
+      .hero { min-height: 0; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2px; padding: 58px 0 118px; }
+      h1 { font-size: clamp(3.25rem, 14vw, 5rem); max-width: 520px; }
+      .hero-copy > p { max-width: 350px; }
+      .hero-illustration { position: absolute; right: -22px; bottom: 27px; width: 160px; opacity: .8; }
+      .hero::before { width: 320px; height: 320px; right: -180px; top: auto; bottom: -90px; }
+      .quick-inquiry { width: calc(100% - 34px); grid-template-columns: 1fr 1fr; transform: translate(-50%, 70%); gap: 3px; padding: 9px; }
+      .quick-inquiry label { padding: 4px 8px; }
+      .quick-inquiry label:nth-child(2) { border-right: 0; }
+      .quick-inquiry button { grid-column: 1 / -1; min-height: 43px; }
+      main { padding-top: 154px; }
+      .section-head { align-items: start; flex-direction: column; gap: 10px; }
+      .section-head p { max-width: 400px; }
+      .dest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+      .art { height: 145px; }
+      .dest-info { padding: 13px 12px; }
+      .dest-info h3 { font-size: 1.25rem; }
+      .dest-info p { font-size: .72rem; }
+      .dest-foot { align-items: start; flex-direction: column; gap: 7px; }
+      .booking { margin-top: 72px; padding-block: 58px; }
+      .steps { grid-template-columns: 1fr; gap: 23px; margin-top: 30px; }
+      .step { display: grid; grid-template-columns: 35px 1fr; column-gap: 7px; }
+      .step-number { grid-row: span 2; padding-top: 3px; }
+      .step h3 { margin: 0 0 3px; }
+      .lower { grid-template-columns: 1fr; gap: 58px; padding-block: 68px; }
+      .footer-inner { align-items: start; flex-direction: column; gap: 8px; }
+    }
+    @media (max-width: 410px) {
+      .topline { font-size: .58rem; }
+      .nav-links { gap: 8px; }
+      .nav-links a:first-child { display: none; }
+      .brand-mark { width: 30px; height: 30px; }
+      .dest-grid { gap: 9px; }
+      .art { height: 126px; }
+      .art-tag { top: 8px; left: 8px; font-size: .53rem; }
+      .dest-info h3 { font-size: 1.14rem; }
+      .duration { font-size: .59rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .form-actions { align-items: start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">DEMO WITH SAMPLE DATA &nbsp; / &nbsp; JOURNEYS MADE AT YOUR PACE</div>
+  <header>
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Saffron Route Travel home"><span class="brand-mark"><span>✳</span></span><span class="brand-name">Saffron Route Travel</span></a>
+      <div class="nav-links"><a href="#journeys">Journeys</a><a href="#how-it-works">How it works</a><a href="#faq">Questions</a><a class="nav-cta" href="#inquiry">Plan a trip <span aria-hidden="true">↗</span></a></div>
+    </nav>
+  </header>
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-grid wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">A little farther, a little slower</p>
+        <h1 id="hero-title">Take the <em>scenic</em> way.</h1>
+        <p>Small-group escapes and thoughtful stays for people who like a little room to wander.</p>
+      </div>
+      <div class="hero-illustration" aria-hidden="true">
+        <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 216C81 180 93 234 134 199C171 168 183 175 215 133C247 91 272 132 302 93C326 62 340 84 364 55" stroke="#F09B7C" stroke-width="2" stroke-dasharray="5 8"/>
+          <circle cx="40" cy="216" r="6" fill="#F09B7C"/><circle cx="364" cy="55" r="6" fill="#F09B7C"/>
+          <path d="M220 73c22-17 49-17 70 0 18 15 17 43-2 57l-33 25-34-25c-19-14-20-42-1-57Z" fill="#DCE9DF" stroke="#F3E7D2" stroke-width="2"/>
+          <path d="M238 101c9-9 24-9 33 0m-26 12c6-5 14-5 20 0" stroke="#174B49" stroke-width="2" stroke-linecap="round"/>
+          <path d="M95 96c13-13 28-13 40 0 12 13 12 31 0 43l-20 20-20-20c-12-12-12-30 0-43Z" fill="#CF624B"/>
+          <path d="M107 111h16m-8-8v16" stroke="#FFFaf0" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="327" cy="196" r="52" stroke="#DCE9DF" stroke-opacity=".42"/><circle cx="327" cy="196" r="39" stroke="#DCE9DF" stroke-opacity=".28"/>
+          <text x="285" y="202" fill="#F3E7D2" font-family="Georgia,serif" font-size="14" letter-spacing="3">ROAM</text>
+        </svg>
+      </div>
+    </div>
+    <form class="quick-inquiry" id="quick-inquiry" aria-label="Start a trip inquiry">
+      <label><span>Where to</span><select name="quick-destination" id="quick-destination"><option value="">Choose a place</option><option>Aroha Keys</option><option>Bellweather City</option><option>Juniper Vale</option><option>Marigold Coast</option><option>Moonstone Reach</option><option>Fernwake Bay</option></select></label>
+      <label><span>When</span><select name="month" aria-label="Travel month"><option>Any month</option><option>January</option><option>April</option><option>July</option><option>October</option></select></label>
+      <label><span>Travellers</span><select name="travellers" aria-label="Number of travellers"><option>2 travellers</option><option>1 traveller</option><option>3 travellers</option><option>4 travellers</option></select></label>
+      <button type="submit">Find a journey <span aria-hidden="true">→</span></button>
+    </form>
+  </section>
+  <main>
+    <section class="wrap" id="journeys" aria-labelledby="journeys-title">
+      <div class="section-head">
+        <div><p class="eyebrow">Handpicked places</p><h2 id="journeys-title">A route for every kind<br>of curious.</h2></div>
+        <p>Six sample itineraries, each with time to follow a side street or stay for one more cup.</p>
+      </div>
+      <div class="filter-row" role="group" aria-label="Filter journeys by trip type">
+        <span class="micro">Browse by mood</span>
+        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All routes</button>
+        <button class="filter-button" type="button" data-filter="beach" aria-pressed="false">Beach</button>
+        <button class="filter-button" type="button" data-filter="city" aria-pressed="false">City</button>
+        <button class="filter-button" type="button" data-filter="culture" aria-pressed="false">Culture</button>
+        <button class="filter-button" type="button" data-filter="family" aria-pressed="false">Family</button>
+      </div>
+      <div class="dest-grid" id="destination-grid">
+        <article class="destination" data-types="beach family">
+          <div class="art" style="--art-bg:#dce9df"><span class="art-tag">Salt air</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#DCE9DF"/><circle cx="278" cy="45" r="24" fill="#E5A975"/><path d="M0 119c47-17 75 2 119-7 50-10 70-26 122-14 49 12 75-1 119-9v106H0Z" fill="#57928A"/><path d="M0 147c52-13 87 7 143-4 58-11 110-2 217-19v71H0Z" fill="#174B49"/><path d="M16 157c51-13 98 8 152-4 55-12 95-5 167-15" stroke="#F3E7D2" stroke-width="3" stroke-dasharray="8 10"/><path d="M218 122c15-18 34-20 48-4-8 0-14 6-16 14-12-8-22-8-32-10Z" fill="#CF624B"/></svg></div>
+          <div class="dest-info"><h3>Aroha Keys</h3><p>Lagoon paths and sleepy coves</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$840</span></div><span class="duration">5 days / 4 nights</span></div></div>
+        </article>
+        <article class="destination" data-types="city culture">
+          <div class="art" style="--art-bg:#ead9c2"><span class="art-tag">After hours</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#EAD9C2"/><circle cx="70" cy="45" r="23" fill="#CF624B"/><path d="M0 157h360v38H0Z" fill="#174B49"/><path d="M23 91 88 62l63 29v66H23Zm139 17 55-44 56 44v49H162Zm128-23 37 19v53h-37Z" fill="#B87952"/><path d="M49 108h16v22H49zm34 0h16v22H83zm-15 34h28v15H68zm110-21h18v19h-18zm34-18h18v18h-18zm29 20h18v18h-18z" fill="#F3E7D2"/><path d="M0 166c51-12 86 6 136-4s93-4 224-12" stroke="#E5A975" stroke-width="2" stroke-dasharray="5 7"/></svg></div>
+          <div class="dest-info"><h3>Bellweather City</h3><p>Courtyard cafes and late trams</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$690</span></div><span class="duration">4 days / 3 nights</span></div></div>
+        </article>
+        <article class="destination" data-types="culture family">
+          <div class="art" style="--art-bg:#e7cfaa"><span class="art-tag">Open sky</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#E7CFAA"/><circle cx="274" cy="48" r="26" fill="#CF624B"/><path d="M0 111 72 74l61 41 69-53 67 50 51-29 40 27v85H0Z" fill="#568077"/><path d="m0 145 85-36 53 30 79-47 73 43 70-28v88H0Z" fill="#174B49"/><path d="M112 111c9-24 29-25 38 0m-23 0v36m48-62c9-23 29-24 38 0m-23 0v32" stroke="#F3E7D2" stroke-width="4"/><path d="M35 170h289" stroke="#E5A975" stroke-width="2" stroke-dasharray="7 9"/></svg></div>
+          <div class="dest-info"><h3>Juniper Vale</h3><p>Hilltop homes and old footpaths</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$760</span></div><span class="duration">6 days / 5 nights</span></div></div>
+        </article>
+        <article class="destination" data-types="beach culture">
+          <div class="art" style="--art-bg:#eedac5"><span class="art-tag">Market mornings</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#EEDAC5"/><circle cx="281" cy="46" r="22" fill="#CF624B"/><path d="M0 130c58-23 99-2 147-15 60-17 119 8 213-12v92H0Z" fill="#69978A"/><path d="M27 108h133l-15 58H43Z" fill="#B87952"/><path d="M18 105h151v10H18Z" fill="#174B49"/><path d="M49 89h89v17H49Z" fill="#CF624B"/><path d="M54 90V68h21v22m15 0V61h22v29m19 0V72h17v18" stroke="#174B49" stroke-width="4"/><path d="M0 165c61-8 102 10 164-1s126-7 196-15" stroke="#F3E7D2" stroke-width="3" stroke-dasharray="7 8"/></svg></div>
+          <div class="dest-info"><h3>Marigold Coast</h3><p>Harbour lunches and tiled lanes</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$920</span></div><span class="duration">7 days / 6 nights</span></div></div>
+        </article>
+        <article class="destination" data-types="city family">
+          <div class="art" style="--art-bg:#d5e1d9"><span class="art-tag">Room to roam</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#D5E1D9"/><circle cx="80" cy="44" r="21" fill="#E5A975"/><path d="M0 147h360v48H0Z" fill="#174B49"/><path d="M40 70h73v87H40zm94 24h45v63h-45zm68-40h78v103h-78zm91 34h39v69h-39z" fill="#B87952"/><path d="M54 88h15v21H54zm31 0h15v21H85zm-31 37h15v20H54zm31 0h15v20H85zm134-8h18v23h-18zm35-38h18v22h-18zm0 38h18v23h-18z" fill="#F3E7D2"/><path d="M0 171c70-18 124 3 188-8 66-11 106 1 172-13" stroke="#E5A975" stroke-width="2" stroke-dasharray="6 8"/></svg></div>
+          <div class="dest-info"><h3>Moonstone Reach</h3><p>Canal walks and pocket gardens</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$720</span></div><span class="duration">5 days / 4 nights</span></div></div>
+        </article>
+        <article class="destination" data-types="beach family">
+          <div class="art" style="--art-bg:#e9d2b8"><span class="art-tag">Easy days</span><svg viewBox="0 0 360 195" aria-hidden="true"><rect width="360" height="195" fill="#E9D2B8"/><circle cx="280" cy="48" r="25" fill="#CF624B"/><path d="M0 116c48 3 73-18 121-9 45 8 75 24 120 12 43-12 74-5 119 6v70H0Z" fill="#61928A"/><path d="M0 149c45-7 94 15 145 1 54-15 106-4 215 4v41H0Z" fill="#174B49"/><path d="M45 117c12-25 34-35 56-29-18 9-27 19-30 35m193-8c12-23 32-29 52-22-17 7-27 16-30 29" stroke="#F3E7D2" stroke-width="4" stroke-linecap="round"/><path d="M18 165c64-14 110 8 168-3 52-10 111-4 158 5" stroke="#E5A975" stroke-width="3" stroke-dasharray="7 8"/></svg></div>
+          <div class="dest-info"><h3>Fernwake Bay</h3><p>Warm shallows and shell paths</p><div class="dest-foot"><div><span class="price-label">Sample price from</span><span class="price">$810</span></div><span class="duration">6 days / 5 nights</span></div></div>
+        </article>
+      </div>
+    </section>
+    <section class="booking" id="how-it-works" aria-labelledby="booking-title">
+      <div class="wrap">
+        <p class="eyebrow">From first note to takeoff</p><h2 id="booking-title">A few good steps.<br>Then, off you go.</h2>
+        <div class="steps">
+          <article class="step"><span class="step-number">01</span><h3>Tell us what calls</h3><p>Share a place, a pace, or the kind of day you want more of.</p></article>
+          <article class="step"><span class="step-number">02</span><h3>Shape the details</h3><p>We sketch an itinerary together and make room for your own ideas.</p></article>
+          <article class="step"><span class="step-number">03</span><h3>Make it yours</h3><p>Review the plan, ask your questions, and choose what feels right.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="lower wrap">
+      <div class="faq" id="faq">
+        <p class="eyebrow">A few useful notes</p><h2>Before you<br>wander off.</h2><p class="subhead">Good questions make for good journeys.</p>
+        <details><summary>Are these real trips and prices?</summary><p>No. This page is a fictional portfolio demo. Places, routes, prices, and details are sample data.</p></details>
+        <details><summary>Can I change the itinerary?</summary><p>In this sample concept, trips are shaped around your pace and interests. No booking service is connected here.</p></details>
+        <details><summary>Does this form send my details?</summary><p>No. It only checks the fields in your browser and displays a sample thank-you message.</p></details>
+      </div>
+      <section class="inquiry" id="inquiry" aria-labelledby="inquiry-title">
+        <p class="eyebrow">Start with a hello</p><h2 id="inquiry-title">What are you dreaming up?</h2><p class="subhead">A few details are plenty. This demo form stays in your browser.</p>
+        <form id="inquiry-form">
+          <div class="form-grid">
+            <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" placeholder="Name" required minlength="2"></div>
+            <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="field full"><label for="destination">Destination</label><select id="destination" name="destination" required><option value="">Choose a sample place</option><option>Aroha Keys</option><option>Bellweather City</option><option>Juniper Vale</option><option>Marigold Coast</option><option>Moonstone Reach</option><option>Fernwake Bay</option><option>I'm still deciding</option></select></div>
+            <div class="field full"><label for="message">A note about your trip</label><textarea id="message" name="message" placeholder="A slow week by the sea, perhaps..." required minlength="8"></textarea></div>
+          </div>
+          <div class="form-actions"><button class="button" type="submit">Show sample thank you <span aria-hidden="true">→</span></button><span class="form-note">No message is sent or stored.</span></div>
+          <p class="thank-you" id="thank-you" role="status" aria-live="polite" tabindex="-1">Thank you, your sample inquiry is ready. Nothing has been sent.</p>
+        </form>
+      </section>
+    </section>
+  </main>
+  <footer><div class="footer-inner wrap"><span class="footer-name">Saffron Route Travel</span><p>18 Lantern Fig Lane, Port Solace</p><p>Demo with sample data. Fictional address.</p></div></footer>
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const destinations = document.querySelectorAll(".destination");
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        destinations.forEach((card) => {
+          card.hidden = filter !== "all" && !card.dataset.types.split(" ").includes(filter);
+        });
+      });
+    });
+
+    document.querySelector("#quick-inquiry").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const chosen = document.querySelector("#quick-destination").value;
+      const destination = document.querySelector("#destination");
+      if (chosen) destination.value = chosen;
+      document.querySelector("#inquiry").scrollIntoView({ behavior: "smooth", block: "center" });
+      document.querySelector("#name").focus({ preventScroll: true });
+    });
+
+    document.querySelector("#inquiry-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!event.currentTarget.reportValidity()) return;
+      document.querySelector("#thank-you").classList.add("visible");
+      document.querySelector("#thank-you").focus();
+    });
+  </script>
+</body>
+</html>
