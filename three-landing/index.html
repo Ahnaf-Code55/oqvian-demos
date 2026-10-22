@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11100f">
+    <meta name="description" content="Meet Lumen, a smart desk lamp with light tuned to the way you work.">
+    <title>Lumen | Light for your line of thought</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+      }
+    </script>
+    <script type="module" src="./main.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Lumen home"><span class="wordmark-mark" aria-hidden="true">L</span>Lumen</a>
+      <span class="demo-label">Demo with sample data</span>
+      <a class="header-link" href="#reserve">Get early access <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> LUMEN / DESK LIGHT, RECONSIDERED</p>
+          <h1 id="hero-title">Find your<br><em>bright side.</em></h1>
+          <p class="hero-description">A thoughtful lamp that tunes its light to your hour, your work, and the way your mind moves.</p>
+          <a class="button button-copper" href="#reserve">Meet your new light <span aria-hidden="true">↘</span></a>
+          <p class="hero-note">Tap a tone to set the room.</p>
+          <div class="swatches" role="group" aria-label="Choose lamp light tone">
+            <button class="swatch is-active" type="button" data-tone="warm" aria-label="Warm light" aria-pressed="true"><span></span><b>Warm</b></button>
+            <button class="swatch" type="button" data-tone="neutral" aria-label="Neutral light" aria-pressed="false"><span></span><b>Neutral</b></button>
+            <button class="swatch" type="button" data-tone="cool" aria-label="Cool light" aria-pressed="false"><span></span><b>Cool</b></button>
+            <button class="swatch" type="button" data-tone="rose" aria-label="Rose light" aria-pressed="false"><span></span><b>Rose</b></button>
+          </div>
+        </div>
+        <div class="hero-art" id="lamp-stage" data-tone="warm" aria-label="Interactive three dimensional Lumen desk lamp">
+          <div class="stage-orbit orbit-one" aria-hidden="true"></div>
+          <div class="stage-orbit orbit-two" aria-hidden="true"></div>
+          <div class="stage-glow" aria-hidden="true"></div>
+          <div class="static-lamp" aria-hidden="true">
+            <span class="static-shade"></span><span class="static-arm"></span><span class="static-joint"></span><span class="static-post"></span><span class="static-foot"></span><span class="static-beam"></span>
+          </div>
+          <canvas id="lamp-canvas" aria-hidden="true"></canvas>
+          <div class="stage-caption"><span>01 / FORM STUDY</span><span>TURN YOUR LIGHT</span></div>
+          <span class="stage-coordinate coordinate-top">40° 43' 55.3&quot; N</span>
+          <span class="stage-coordinate coordinate-bottom">A SOFTER KIND OF FOCUS</span>
+        </div>
+        <div class="hero-bottom"><span>DESIGNED FOR THE IN-BETWEEN HOURS</span><span>SCROLL TO EXPLORE ↓</span></div>
+      </section>
+
+      <section class="intro section-wrap reveal" id="what" aria-labelledby="intro-title">
+        <p class="eyebrow">LIGHT THAT LISTENS</p>
+        <div class="intro-content">
+          <h2 id="intro-title">Your day has a rhythm.<br><em>Your light should too.</em></h2>
+          <div class="intro-aside"><span class="rule"></span><p>Lumen shifts from a soft morning glow to a clear, steady beam for deep work. One touch brings the room back to you.</p></div>
+        </div>
+      </section>
+
+      <section class="features section-wrap" aria-labelledby="features-title">
+        <div class="section-heading reveal"><p class="eyebrow">THOUGHTFUL BY DESIGN</p><h2 id="features-title">Small details.<br><em>A different feeling.</em></h2></div>
+        <div class="feature-grid">
+          <article class="feature feature-tall reveal"><span class="feature-index">01 / YOUR HOUR</span><div class="feature-visual visual-sunrise" aria-hidden="true"><span class="sun-disc"></span><span class="sun-line"></span><span class="sun-line"></span><span class="sun-line"></span></div><h3>A softer start</h3><p>Ease into the day with a warm, low glow that feels kind before the coffee kicks in.</p></article>
+          <article class="feature feature-offset reveal"><span class="feature-index">02 / YOUR FOCUS</span><div class="feature-visual visual-focus" aria-hidden="true"><span class="focus-ring"></span><span class="focus-core"></span><span class="focus-cross">+</span></div><h3>Clear where it counts</h3><p>Shape the beam for the page in front of you, while the rest of the room stays calm.</p></article>
+          <article class="feature feature-wide reveal"><span class="feature-index">03 / YOUR SPACE</span><div class="feature-visual visual-material" aria-hidden="true"><span class="material-arc"></span><span class="material-line"></span><span class="material-label">FORM / 01</span></div><div class="feature-wide-copy"><h3>Made to stay in view</h3><p>Quiet curves, tactile controls, and a weighted base make Lumen feel at home on a full desk or an empty one.</p></div></article>
+        </div>
+      </section>
+
+      <section class="specs section-wrap reveal" aria-labelledby="specs-title">
+        <div class="specs-title"><p class="eyebrow">THE DETAILS</p><h2 id="specs-title">Considered<br><em>down to the last</em><br>degree.</h2><p class="specs-note">An early look at the Lumen desk lamp.</p></div>
+        <dl class="spec-list">
+          <div><dt>Light range</dt><dd>2,700 K to 5,000 K</dd></div>
+          <div><dt>Brightness</dt><dd>Five touch settings</dd></div>
+          <div><dt>Materials</dt><dd>Aluminum, soft-touch detail</dd></div>
+          <div><dt>Control</dt><dd>Touch dimmer, color dial</dd></div>
+          <div><dt>Finish shown</dt><dd>Burnished copper</dd></div>
+        </dl>
+      </section>
+
+      <section class="reserve" id="reserve" aria-labelledby="reserve-title">
+        <div class="reserve-glow" aria-hidden="true"></div>
+        <div class="reserve-inner reveal">
+          <p class="eyebrow">A LITTLE MORE LIGHT</p>
+          <h2 id="reserve-title">Make room<br><em>for Lumen.</em></h2>
+          <p class="reserve-copy">Leave an email to preview the early access flow. This demo keeps your details on this page.</p>
+          <form id="reserve-form">
+            <label class="visually-hidden" for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required>
+            <button class="button button-light" type="submit">Request a preview <span aria-hidden="true">↗</span></button>
+          </form>
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+        </div>
+        <p class="reserve-foot">LIGHT FOR THE SPACE YOU'RE IN.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer"><a class="wordmark" href="#top"><span class="wordmark-mark" aria-hidden="true">L</span>Lumen</a><span>MADE FOR THE WORK OF BEING YOU.</span><a href="#top">Back to top ↑</a></footer>
+  </body>
+</html>

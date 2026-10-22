@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e7">
+  <title>Kestrel Freight | Document desk</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f0e7;
+      --paper-light: #fbf9f4;
+      --ink: #202b27;
+      --muted: #68716a;
+      --line: #d9d2c5;
+      --rust: #b44b32;
+      --rust-dark: #8e3826;
+      --moss: #dfe5d8;
+      --forest: #263831;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.55; }
+    button, textarea { font: inherit; }
+    button:focus-visible, textarea:focus-visible, a:focus-visible { outline: 3px solid #d38456; outline-offset: 3px; }
+    .shell { min-height: 100vh; max-width: 1440px; margin: 0 auto; padding: 0 48px 40px; }
+    .topbar { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 12px; letter-spacing: .015em; font-weight: 700; }
+    .mark { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--rust); border-radius: 50%; color: var(--rust); font: 700 18px var(--serif); }
+    .brand-name { font-size: 14px; }
+    .brand-name span { display: block; color: var(--muted); font-size: 10px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
+    .demo-label { border: 1px solid #c7cbbd; border-radius: 99px; padding: 6px 11px; color: #49594f; background: #e9ecdf; font-size: 11px; letter-spacing: .025em; }
+    .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 42px 0 29px; }
+    .eyebrow { margin: 0 0 9px; color: var(--rust-dark); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font: 500 clamp(35px, 4vw, 52px)/1.03 var(--serif); letter-spacing: -.035em; }
+    .intro-note { max-width: 290px; margin: 0 2px 3px 0; color: var(--muted); font-size: 13px; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .75fr); gap: 22px; align-items: start; }
+    .chat-panel, .sources-panel { border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+    .chat-panel { background: var(--paper-light); min-height: 620px; display: flex; flex-direction: column; }
+    .panel-head { min-height: 63px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid var(--line); }
+    .panel-title { display: flex; align-items: center; gap: 10px; font: 600 17px var(--serif); }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #748869; box-shadow: 0 0 0 3px #e9ede3; }
+    .panel-meta { color: var(--muted); font-size: 11px; }
+    .conversation { flex: 1; padding: 23px 23px 13px; }
+    .message { display: flex; gap: 11px; max-width: 690px; margin: 0 0 21px; }
+    .avatar { flex: 0 0 29px; height: 29px; display: grid; place-items: center; border-radius: 50%; background: var(--moss); color: #455744; font: 700 13px var(--serif); }
+    .message-content { min-width: 0; }
+    .message-label { margin: 0 0 5px; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .bubble { color: #36413b; font-size: 14px; line-height: 1.7; }
+    .bubble p { margin: 0; }
+    .user-message { justify-content: flex-end; margin-left: auto; }
+    .user-message .message-content { max-width: 84%; }
+    .user-message .bubble { border-radius: 12px 3px 12px 12px; padding: 10px 14px; background: var(--forest); color: #f8f5ed; }
+    .user-message .message-label { text-align: right; }
+    .user-message .avatar { display: none; }
+    .citation { display: inline-block; margin: 0 2px; padding: 0 5px; border: 1px solid #cf9a82; border-radius: 4px; background: #fbefe8; color: var(--rust-dark); cursor: pointer; font-size: 11px; font-weight: 700; vertical-align: 1px; }
+    .citation:hover { background: #f2d8cb; }
+    .examples { margin: 24px 0 3px 40px; }
+    .examples-label { margin: 0 0 9px; color: var(--muted); font-size: 11px; }
+    .example-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .example { border: 1px solid #cfc8b9; border-radius: 99px; padding: 7px 11px; background: transparent; color: #45524a; cursor: pointer; font-size: 12px; transition: background .15s, border-color .15s; }
+    .example:hover { border-color: var(--rust); background: #f6e8df; }
+    .notice { margin: 0 22px 12px 63px; padding: 8px 11px; border-left: 2px solid #bb8a53; background: #f4eddd; color: #685536; font-size: 11px; }
+    .notice[hidden] { display: none; }
+    .composer { padding: 13px 17px 16px; border-top: 1px solid var(--line); background: #f8f5ee; }
+    .compose-box { display: flex; align-items: end; gap: 12px; padding: 9px 9px 9px 13px; border: 1px solid #cfc8ba; border-radius: 7px; background: #fffefa; }
+    textarea { width: 100%; min-height: 42px; max-height: 115px; resize: vertical; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; line-height: 1.5; }
+    textarea::placeholder { color: #898d83; }
+    .send { flex: 0 0 auto; width: 39px; height: 39px; display: grid; place-items: center; border: 0; border-radius: 5px; background: var(--rust); color: #fff9f1; cursor: pointer; }
+    .send:hover { background: var(--rust-dark); }
+    .send:disabled { opacity: .55; cursor: wait; }
+    .send svg { width: 17px; height: 17px; }
+    .composer-hint { margin: 7px 3px 0; color: #84877f; font-size: 10px; }
+    .sources-panel { min-height: 620px; background: #e8e5da; }
+    .source-head { min-height: 63px; display: flex; align-items: center; justify-content: space-between; padding: 0 19px; border-bottom: 1px solid #d1ccbf; }
+    .source-head h2 { margin: 0; font: 500 20px var(--serif); }
+    .source-count { color: var(--muted); font-size: 11px; }
+    .sources-body { padding: 13px; }
+    .source-empty { min-height: 490px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 25px; color: #68716a; text-align: center; }
+    .source-empty svg { width: 47px; height: 47px; margin-bottom: 13px; color: #9a9b8d; }
+    .source-empty strong { color: #3f4b42; font: 500 19px var(--serif); }
+    .source-empty span { max-width: 205px; margin-top: 6px; font-size: 12px; }
+    .source-card { margin: 0 0 10px; padding: 14px 14px 13px; border: 1px solid #d0cbbf; border-radius: 6px; background: #f8f5ed; scroll-margin: 14px; transition: border-color .2s, box-shadow .2s, background .2s; }
+    .source-card.is-highlighted { border-color: var(--rust); background: #fff7ef; box-shadow: 0 0 0 3px #b44b3222; }
+    .source-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .source-ref { display: inline-grid; place-items: center; width: 23px; height: 23px; border-radius: 4px; background: var(--forest); color: #fff9f1; font-size: 11px; font-weight: 700; }
+    .source-doc { flex: 1; color: #46564c; font-size: 12px; font-weight: 700; }
+    .source-kicker { color: #88877c; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+    .source-text { margin: 0; color: #535a51; font: 13px/1.65 var(--serif); }
+    .footnote { padding: 15px 2px 0; color: #777b72; font-size: 10px; }
+    .loading .avatar { animation: pulse 1s infinite alternate; }
+    .error-text { color: #8e3826; }
+    @keyframes pulse { to { opacity: .45; } }
+    @media (max-width: 850px) {
+      .shell { padding: 0 25px 30px; }
+      .workspace { grid-template-columns: minmax(0, 1.1fr) minmax(275px, .9fr); gap: 14px; }
+      .conversation { padding-inline: 17px; }
+      .notice { margin-left: 57px; }
+    }
+    @media (max-width: 650px) {
+      .shell { padding: 0 17px 24px; }
+      .topbar { height: 69px; }
+      .intro { display: block; padding: 29px 0 21px; }
+      h1 { font-size: 40px; }
+      .intro-note { margin-top: 12px; }
+      .workspace { grid-template-columns: 1fr; }
+      .chat-panel, .sources-panel { min-height: unset; }
+      .chat-panel { min-height: 530px; }
+      .sources-panel { min-height: 260px; }
+      .source-empty { min-height: 220px; }
+      .examples { margin-left: 0; }
+      .notice { margin-left: 18px; }
+      .source-card { padding: 12px; }
+    }
+    @media (max-width: 390px) {
+      .shell { padding-inline: 12px; }
+      .panel-head { padding-inline: 15px; }
+      .panel-meta { font-size: 10px; }
+      .conversation { padding: 18px 13px 10px; }
+      .example { font-size: 11px; }
+      .demo-label { font-size: 10px; padding: 5px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Kestrel Freight document desk">
+        <div class="mark" aria-hidden="true">K</div>
+        <div class="brand-name">Kestrel Freight<span>Document desk</span></div>
+      </div>
+      <span class="demo-label">Demo with sample data</span>
+    </header>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">Freight answers, from the source</p><h1 id="page-title">Ask the document desk.</h1></div>
+      <p class="intro-note">A small reference assistant for routes, account questions, and shipment details.</p>
+    </section>
+    <main class="workspace">
+      <section class="chat-panel" aria-label="Chat">
+        <div class="panel-head">
+          <div class="panel-title"><span class="live-dot" aria-hidden="true"></span> Freight assistant</div>
+          <span class="panel-meta">7 reference notes</span>
+        </div>
+        <div class="conversation" id="conversation" aria-live="polite">
+          <div class="message">
+            <div class="avatar" aria-hidden="true">K</div>
+            <div class="message-content"><p class="message-label">Kestrel desk</p><div class="bubble"><p>Welcome. Ask about a route, a shipment claim, or setting up an account. I will point to the passage I used.</p></div></div>
+          </div>
+          <div class="examples" id="examples">
+            <p class="examples-label">Try a question</p>
+            <div class="example-list">
+              <button class="example" type="button">How long from Alder Bay to Bellhaven?</button>
+              <button class="example" type="button">What should I send for a customs review?</button>
+              <button class="example" type="button">How do I report damaged freight?</button>
+            </div>
+          </div>
+        </div>
+        <div class="notice" id="notice" role="status" hidden></div>
+        <form class="composer" id="ask-form">
+          <div class="compose-box">
+            <textarea id="question" rows="2" maxlength="1000" placeholder="Ask about your freight documents..." aria-label="Your question" required></textarea>
+            <button class="send" id="send" type="submit" aria-label="Send question">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <p class="composer-hint">Answers are grounded in the sample reference notes.</p>
+        </form>
+      </section>
+      <aside class="sources-panel" aria-labelledby="source-title">
+        <div class="source-head"><h2 id="source-title">Sources</h2><span class="source-count" id="source-count">Waiting for a question</span></div>
+        <div class="sources-body" id="sources" aria-live="polite">
+          <div class="source-empty" id="source-empty">
+            <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 8h16l8 8v24H12V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M28 8v9h8M18 24h12M18 30h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <strong>Your references will appear here</strong><span>Each answer includes the exact passage behind it.</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <p class="footnote">Fictional carrier details for demonstration only.</p>
+  </div>
+  <script>
+    const conversation = document.querySelector('#conversation');
+    const form = document.querySelector('#ask-form');
+    const input = document.querySelector('#question');
+    const send = document.querySelector('#send');
+    const notice = document.querySelector('#notice');
+    const sourcesBox = document.querySelector('#sources');
+    const emptySources = document.querySelector('#source-empty');
+    const sourceCount = document.querySelector('#source-count');
+
+    function addMessage(role, text, options = {}) {
+      const row = document.createElement('div');
+      row.className = `message ${role === 'user' ? 'user-message' : ''} ${options.loading ? 'loading' : ''}`;
+      if (options.id) row.id = options.id;
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar'; avatar.textContent = role === 'user' ? 'Y' : 'K';
+      avatar.setAttribute('aria-hidden', 'true');
+      const content = document.createElement('div'); content.className = 'message-content';
+      const label = document.createElement('p'); label.className = 'message-label'; label.textContent = role === 'user' ? 'You' : 'Kestrel desk';
+      const bubble = document.createElement('div'); bubble.className = `bubble${options.error ? ' error-text' : ''}`;
+      const p = document.createElement('p');
+      if (options.loading) p.textContent = 'Looking through the reference notes...';
+      else if (role === 'assistant' && options.sources) renderCitations(p, text, options.sources);
+      else p.textContent = text;
+      bubble.append(p); content.append(label, bubble); row.append(avatar, content); conversation.append(row);
+      row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return row;
+    }
+
+    function renderCitations(parent, text, refs) {
+      const pattern = /\[(\d+)\]/g;
+      let start = 0, match;
+      while ((match = pattern.exec(text))) {
+        parent.append(document.createTextNode(text.slice(start, match.index)));
+        const n = Number(match[1]);
+        if (n >= 1 && n <= refs.length) {
+          const chip = document.createElement('button');
+          chip.type = 'button'; chip.className = 'citation'; chip.textContent = `[${n}]`;
+          chip.setAttribute('aria-label', `Show source ${n}`);
+          chip.addEventListener('click', () => focusSource(n)); parent.append(chip);
+        } else parent.append(document.createTextNode(match[0]));
+        start = pattern.lastIndex;
+      }
+      parent.append(document.createTextNode(text.slice(start)));
+    }
+
+    function focusSource(n) {
+      const card = document.querySelector(`#source-${n}`);
+      if (!card) return;
+      document.querySelectorAll('.source-card').forEach((el) => el.classList.remove('is-highlighted'));
+      card.classList.add('is-highlighted');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      window.setTimeout(() => card.classList.remove('is-highlighted'), 2300);
+    }
+
+    function showSources(refs) {
+      emptySources?.remove();
+      sourcesBox.replaceChildren();
+      sourceCount.textContent = `${refs.length} ${refs.length === 1 ? 'passage' : 'passages'}`;
+      refs.forEach((ref, index) => {
+        const card = document.createElement('article'); card.className = 'source-card'; card.id = `source-${index + 1}`;
+        const top = document.createElement('div'); top.className = 'source-card-top';
+        const badge = document.createElement('span'); badge.className = 'source-ref'; badge.textContent = `[${index + 1}]`;
+        const title = document.createElement('span'); title.className = 'source-doc'; title.textContent = ref.doc;
+        const label = document.createElement('span'); label.className = 'source-kicker'; label.textContent = 'Reference';
+        const passage = document.createElement('p'); passage.className = 'source-text'; passage.textContent = ref.chunkText;
+        top.append(badge, title, label); card.append(top, passage); sourcesBox.append(card);
+      });
+    }
+
+    async function ask(question) {
+      document.querySelector('#examples')?.remove();
+      addMessage('user', question);
+      input.value = ''; notice.hidden = true; notice.textContent = '';
+      send.disabled = true;
+      const loading = addMessage('assistant', '', { loading: true, id: 'loading-message' });
+      try {
+        const response = await fetch('/api/ask', {
+          method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question }),
+        });
+        const data = await response.json();
+        loading.remove();
+        if (!response.ok) throw new Error(data.error || 'The request could not be completed.');
+        showSources(data.sources || []);
+        if (data.notice) { notice.textContent = data.notice; notice.hidden = false; }
+        const answer = data.mode === 'retrieval-only' && data.sources?.length ? `${data.answer} [1]` : data.answer;
+        addMessage('assistant', answer, { sources: data.sources || [] });
+      } catch (error) {
+        loading.remove();
+        addMessage('assistant', error.message || 'Something went wrong. Please try again.', { error: true });
+      } finally { send.disabled = false; input.focus(); }
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); const question = input.value.trim(); if (question) ask(question);
+    });
+    document.querySelectorAll('.example').forEach((button) => button.addEventListener('click', () => ask(button.textContent)));
+    const preset = new URLSearchParams(location.search).get('q'); if (preset) ask(preset);
+  </script>
+</body>
+</html>
